@@ -1,0 +1,8 @@
+Customers Processed: 26
+Duplicates Removed: 1
+Missing Emails Filled: 5
+Products Processed: 20
+Missing Prices Filled: 3
+Sales Processed: 41
+Duplicate Orders Removed: 1
+Records Loaded Successfully

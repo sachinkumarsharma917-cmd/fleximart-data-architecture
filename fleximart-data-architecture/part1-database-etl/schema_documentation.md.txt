@@ -1,0 +1,114 @@
+# FlexiMart Database Schema Documentation
+
+## 1. Entity-Relationship Description
+
+### ENTITY: customers
+**Purpose:**  
+Stores customer information for FlexiMart e-commerce platform.
+
+**Attributes:**
+- customer_id: Unique identifier for each customer (Primary Key)
+- first_name: Customer's first name
+- last_name: Customer's last name
+- email: Customer's email address (unique)
+- phone: Customer's contact number
+- city: City where the customer resides
+- registration_date: Date when the customer registered
+
+**Relationships:**
+- One customer can place MANY orders  
+- Relationship: customers (1) → orders (M)
+
+---
+
+### ENTITY: products
+**Purpose:**  
+Stores product details available for sale.
+
+**Attributes:**
+- product_id: Unique identifier for each product (Primary Key)
+- product_name: Name of the product
+- category: Product category (e.g., Electronics, Clothing)
+- price: Price of the product
+- stock_quantity: Available stock quantity
+
+**Relationships:**
+- One product can appear in MANY order items  
+- Relationship: products (1) → order_items (M)
+
+---
+
+### ENTITY: orders
+**Purpose:**  
+Stores customer order information.
+
+**Attributes:**
+- order_id: Unique identifier for each order (Primary Key)
+- customer_id: References the customer who placed the order (Foreign Key)
+- order_date: Date when the order was placed
+- total_amount: Total order value
+- status: Order status (Pending, Completed, Cancelled)
+
+**Relationships:**
+- One order belongs to ONE customer  
+- One order can have MANY order items
+
+---
+
+### ENTITY: order_items
+**Purpose:**  
+Stores detailed line items for each order.
+
+**Attributes:**
+- order_item_id: Unique identifier for each order item (Primary Key)
+- order_id: References orders table (Foreign Key)
+- product_id: References products table (Foreign Key)
+- quantity: Number of units ordered
+- unit_price: Price per unit at the time of order
+- subtotal: Quantity × unit price
+
+**Relationships:**
+- Each order item belongs to ONE order
+- Each order item refers to ONE product
+
+---
+
+## 2. Normalization Explanation (Third Normal Form - 3NF)
+
+The FlexiMart database schema is designed according to Third Normal Form (3NF) principles to ensure data integrity and reduce redundancy.
+
+In this design, all tables have atomic attributes, meaning each field contains only single, indivisible values, which satisfies First Normal Form (1NF). There are no repeating groups or multi-valued attributes.
+
+Second Normal Form (2NF) is achieved because all non-key attributes in each table are fully dependent on the entire primary key. For example, in the order_items table, attributes such as quantity, unit_price, and subtotal depend entirely on order_item_id and not on a part of the key.
+
+Third Normal Form (3NF) is satisfied as there are no transitive dependencies. Non-key attributes do not depend on other non-key attributes. For instance, customer details such as email and phone are stored only in the customers table and not duplicated in the orders table. Similarly, product price and category are stored only in the products table.
+
+This design avoids update anomalies (changing customer email in only one place), insert anomalies (adding a product without an order), and delete anomalies (removing an order does not delete customer data). Overall, the schema ensures consistency, scalability, and efficient data management.
+
+---
+
+## 3. Sample Data Representation
+
+### customers
+| customer_id | first_name | last_name | email                  | city      |
+|------------|------------|-----------|------------------------|-----------|
+| 1          | Rahul      | Sharma    | rahul@gmail.com        | Bangalore |
+| 2          | Priya      | Patel     | priya@yahoo.com        | Mumbai    |
+
+### products
+| product_id | product_name | category     | price  | stock_quantity |
+|-----------|--------------|--------------|--------|----------------|
+| 1         | Laptop       | Electronics  | 55000  | 20             |
+| 2         | Headphones   | Electronics  | 3000   | 50             |
+
+### orders
+| order_id | customer_id | order_date | total_amount | status     |
+|---------|-------------|------------|--------------|------------|
+| 101     | 1           | 2024-01-15 | 58000        | Completed  |
+| 102     | 2           | 2024-01-18 | 3000         | Completed  |
+
+### order_items
+| order_item_id | order_id | product_id | quantity | unit_price | subtotal |
+|--------------|----------|------------|----------|------------|----------|
+| 1            | 101      | 1          | 1        | 55000      | 55000    |
+| 2            | 102      | 2          | 1        | 3000       | 3000     |

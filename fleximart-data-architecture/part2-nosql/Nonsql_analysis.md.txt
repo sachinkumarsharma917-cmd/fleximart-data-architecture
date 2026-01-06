@@ -1,0 +1,29 @@
+# NoSQL Analysis for FlexiMart Product Catalog
+
+## Section A: Limitations of RDBMS (Relational Database)
+
+Relational databases like MySQL use fixed schemas, which means every record in a table must follow the same structure. This becomes a problem when FlexiMart sells different types of products such as laptops, shoes, and furniture, because each product has different attributes. For example, laptops have RAM and processor details, while shoes have size and color. Storing all these attributes in a single relational table would result in many NULL values and poor design.
+
+Another limitation is frequent schema changes. Whenever a new product type is added, the table structure must be altered, which is time-consuming and risky in production systems. Additionally, storing customer reviews in relational databases requires multiple tables and joins, making queries complex and slower.
+
+Overall, relational databases are less flexible when dealing with highly diverse and evolving product data.
+
+---
+
+## Section B: Benefits of MongoDB (NoSQL)
+
+MongoDB is a document-based NoSQL database that allows flexible schemas. Each product can be stored as a document with its own structure, so laptops and shoes can have completely different attributes without affecting each other. This makes MongoDB ideal for diverse product catalogs.
+
+MongoDB also supports embedded documents, allowing customer reviews to be stored directly inside the product document. This reduces the need for joins and improves read performance. Additionally, MongoDB is horizontally scalable, meaning it can easily handle growing data by distributing it across multiple servers.
+
+These features make MongoDB more suitable for handling dynamic and complex product data compared to traditional relational databases.
+
+---
+
+## Section C: Trade-offs of MongoDB
+
+One disadvantage of MongoDB is weaker support for complex transactions compared to relational databases. Ensuring strong consistency across multiple documents can be challenging.
+
+Another drawback is data duplication. Because MongoDB often embeds related data, the same information may be stored in multiple documents, increasing storage usage and making updates more difficult.
+
+Therefore, MongoDB is best used where flexibility is more important than strict relational consistency.
